@@ -14,6 +14,7 @@ class UrlParser {
     private $user = '';
     private $query = '';
     private $host = '';
+    private $path = '';
 
     private $protocolSchemas = array(
         'http' => 'HTTP',
@@ -72,6 +73,12 @@ class UrlParser {
             $this->query = $res['query'];
         }
 
+        //parse path
+        if(isset($res['path'])){
+            $this->path = $res['path'];
+        }
+
+
     }
 
     /**
@@ -119,6 +126,54 @@ class UrlParser {
      */
     public function getHost(){
         return $this->host;
+    }
+
+
+    /**
+     * Getter for path
+     *
+     * @return mixed
+     */
+    public function getPath(){
+        return $this->path;
+    }
+
+    /**
+     * Magic happens here :)
+     *
+     * @return string
+     */
+    public function __toString(){
+
+        $url = '';
+
+        $schemas = array_flip($this->protocolSchemas);
+
+        if($schemas[$this->protocol]){
+            $url .= $schemas[$this->protocol] . '://';
+        }
+
+        if($this->user){
+            $url .=  $this->user . '@';
+        }
+
+        if($this->host){
+            $url .=  $this->host ;
+        }
+
+        if($this->port){
+            $url .=  ':' . $this->port ;
+        }
+
+        if($this->path){
+            $url .=  $this->path ;
+        }
+
+        if($this->query){
+            $url .= '?' . $this->query;
+        }
+
+        return  $url;
     }
 
 }

@@ -48,5 +48,18 @@ class UrlParserTest extends \PHPUnit_Framework_TestCase{
 
     }
 
+    public function testGetPath(){
+
+        $urlParser = new UrlParser($this->correctUrl);
+        $path = $urlParser->getPath();
+        $this->assertEquals($path,'/test');
+
+    }
+
+    public function testToString(){
+        $urlParser = new UrlParser($this->correctUrl);
+        $resUrl = (string) $urlParser;
+        $this->assertEquals($resUrl,$this->correctUrl);
+    }
 
 }
