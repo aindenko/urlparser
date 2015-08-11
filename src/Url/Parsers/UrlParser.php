@@ -28,13 +28,23 @@ class UrlParser
     public function __construct($url)
     {
         if (!empty($url)) {
-            $this->url = $url;
+            $this->url = $this->prepareUrl($url);
         } else {
             throw new \Exception('Url has not to be empty');
         }
-        //TODO remove ./  ../
 
-        $this->parse($this->url);
+
+        $this->parseUrl($this->url);
+    }
+
+    /**
+     * Cleanup Url
+     *
+     * @param $url
+     * @return mixed
+     */
+    private function prepareUrl($url){
+        return str_replace(array('../', './'),'/',$url);
     }
 
     /**
@@ -42,7 +52,7 @@ class UrlParser
      *
      * @throws \Exception
      */
-    private function parse()
+    private function parseUrl()
     {
         $res = parse_url($this->url);
 

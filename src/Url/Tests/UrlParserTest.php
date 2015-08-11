@@ -7,6 +7,10 @@ use Url\Parsers\UrlParser;
 class UrlParserTest extends \PHPUnit_Framework_TestCase
 {
     public $correctUrl = 'http://andrey@example.com:80/test?query';
+    public $correctUrlWithoutScheme = 'andrey@example.com:80/test?query';
+    public $relativeUrl = '/test?query';
+    public $relativeUrl1Level = './test?query';
+    public $relativeUrl2Level = '../test?query';
 
     public function testGetProtocol()
     {
@@ -56,4 +60,45 @@ class UrlParserTest extends \PHPUnit_Framework_TestCase
         $resUrl = (string) $urlParser;
         $this->assertEquals($resUrl, $this->correctUrl);
     }
+
+    public function testCorrectUrlWithoutScheme(){
+        $urlParser = new UrlParser($this->correctUrlWithoutScheme);
+        $this->assertEquals($urlParser->getProtocol(), '');
+        $this->assertEquals($urlParser->getHost(), 'example.com');
+        $this->assertEquals($urlParser->getUser(), 'andrey');
+        $this->assertEquals($urlParser->getPort(), '80');
+        $this->assertEquals($urlParser->getPath(), '/test');
+        $this->assertEquals($urlParser->getQuery(), 'query');
+    }
+
+    public function testRelativeUrl(){
+        $urlParser = new UrlParser($this->relativeUrl);
+        $this->assertEquals($urlParser->getProtocol(), '');
+        $this->assertEquals($urlParser->getHost(), '');
+        $this->assertEquals($urlParser->getUser(), '');
+        $this->assertEquals($urlParser->getPort(), '');
+        $this->assertEquals($urlParser->getPath(), '/test');
+        $this->assertEquals($urlParser->getQuery(), 'query');
+    }
+
+    public function testRelativeUrl1evel(){
+        $urlParser = new UrlParser($this->relativeUrl1Level);
+        $this->assertEquals($urlParser->getProtocol(), '');
+        $this->assertEquals($urlParser->getHost(), '');
+        $this->assertEquals($urlParser->getUser(), '');
+        $this->assertEquals($urlParser->getPort(), '');
+        $this->assertEquals($urlParser->getPath(), '/test');
+        $this->assertEquals($urlParser->getQuery(), 'query');
+    }
+
+    public function testRelativeUrl2evel(){
+        $urlParser = new UrlParser($this->relativeUrl2Level);
+        $this->assertEquals($urlParser->getProtocol(), '');
+        $this->assertEquals($urlParser->getHost(), '');
+        $this->assertEquals($urlParser->getUser(), '');
+        $this->assertEquals($urlParser->getPort(), '');
+        $this->assertEquals($urlParser->getPath(), '/test');
+        $this->assertEquals($urlParser->getQuery(), 'query');
+    }
+
 }
