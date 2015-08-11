@@ -15,3 +15,11 @@ To run tests just run:
 ```
        make test
 ```
+
+Available methods:
+* GetProtocol,
+* GetUser,
+* GetHost,
+* GetPort,
+* GetPath,
+* GetQuery.
